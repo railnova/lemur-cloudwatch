@@ -1,0 +1,3 @@
+[lemur.plugins]
+influxdb = lemur_cloudwatch.plugin:CloudwatchMetricPlugin
+
