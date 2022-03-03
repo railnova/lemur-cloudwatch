@@ -15,10 +15,10 @@ from lemur.plugins.bases.metric import MetricPlugin
 
 def metrics_tags_to_dimensions(metrics_tags):
     dims = []
-    for k, v in metrics_tags:
+    for k, v in metrics_tags.items():
         dims.append({
-            'Name': k,
-            'Value': v
+            'Name': str(k),
+            'Value': str(v)
         })
     return dims
 
@@ -63,16 +63,8 @@ class CloudwatchMetricPlugin(MetricPlugin):
         if not options:
             options = self.options
 
-        current_app.logger.info("InfluxDB ignores metric types (got '%s')",
-                                metric_type)
-
         if not metric_tags:
             metric_tags = {}
-
-        if not isinstance(metric_tags, dict):
-            raise Exception(
-                "Invalid Metric Tags for InfluxDB: Tags must be in dict format"
-            )
 
         self.client.put_metric_data(
             Namespace=self.namespace,
@@ -86,4 +78,3 @@ class CloudwatchMetricPlugin(MetricPlugin):
                 },
             ]
         )
-
